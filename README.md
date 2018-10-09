@@ -2,6 +2,8 @@
 
 A Quick iOS Swift 4 example of commenting on a Gist
 
+To use just download and load the xcode project file into xcode, compile, run and away you go.
+
 Some Gist QR Codes for testing
 
 
