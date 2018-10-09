@@ -25,7 +25,7 @@ class GistApi {
 
     func getGist(id: String, completion: @escaping ((Result<[String:Any]>) -> Void)) {
         
-        let todoEndpoint: String = "https://api.github.com/gists/2bb83155b4b463bb7f0978bc7d527c57"
+        let todoEndpoint: String = "https://api.github.com/gists/"+id
         guard let url = URL(string: todoEndpoint) else {
             
             print("Error: cannot create URL")

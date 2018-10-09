@@ -85,5 +85,19 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if let data = history {
+            
+            GistManager.sharedInstance.getGist(id: data[indexPath.row].id) {
+                (result: Bool) in
+                
+                if result == true {
+                    
+                    let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                    let nextViewController = storyBoard.instantiateViewController(withIdentifier: "GistViewController") as! GistViewController
+                    self.present(nextViewController, animated:true, completion:nil)
+                }
+            }
+        }
     }
 }
