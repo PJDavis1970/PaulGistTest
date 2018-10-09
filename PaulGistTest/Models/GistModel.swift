@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class GistHistory : NSObject, Codable {
+class GistHeader : NSObject, Codable {
     
     init(gist: [String:Any]) {
         

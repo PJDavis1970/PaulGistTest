@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var history:[GistHistory]?
+    var history:[GistHeader]?
     
     override func viewDidLoad() {
         super.viewDidLoad()

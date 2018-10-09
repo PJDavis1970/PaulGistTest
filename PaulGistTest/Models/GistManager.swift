@@ -12,7 +12,7 @@ final class GistManager {
     
     static let sharedInstance = GistManager()
     
-    var gistHistory: [GistHistory]?
+    var gistHistory: [GistHeader]?
     var currentGist: [String: Any]?
     
     
@@ -26,7 +26,7 @@ final class GistManager {
         
         if let data = UserDefaults.standard.data(forKey: "history") {
             
-            self.gistHistory = try? JSONDecoder().decode([GistHistory].self, from: data)
+            self.gistHistory = try? JSONDecoder().decode([GistHeader].self, from: data)
         }
     }
     
@@ -42,7 +42,7 @@ final class GistManager {
     }
     
     // return our gist history
-    func getHistory() -> [GistHistory]? {
+    func getHistory() -> [GistHeader]? {
         
         return gistHistory
     }
@@ -57,11 +57,11 @@ final class GistManager {
 
                     // save the gist for later use
                     self?.currentGist = data
-                    let newGist = GistHistory(gist: data)
+                    let newGist = GistHeader(gist: data)
                     
                     if self?.gistHistory == nil {
 
-                        self?.gistHistory = [GistHistory]()
+                        self?.gistHistory = [GistHeader]()
                     }
                     self?.gistHistory?.insert(newGist, at: 0)
                     self?.saveHistory()
@@ -74,6 +74,32 @@ final class GistManager {
             }
         }
     }
+    
+    
+    // returns the header information for the Gist
+    func getCurrentGistHeader() -> GistHeader? {
+        
+        if let data = currentGist {
+            
+            return GistHeader(gist: data)
+        }
+        return nil
+    }
+    
+    // returns a full data structure to display in Gist View
+    func getCurrentGistDisplayData() -> [[String: Any]] {
+        
+        var data: [[String: Any]] = [[String: Any]]()
+        
+        if let gist = currentGist {
+
+            let header = GistHeader(gist: gist)
+            data.append(["type":"header","data":header])
+        }
+        
+        return data
+    }
+    
     
     // retrieve a Gist from id
     func getGist( id: String , completion: @escaping (_ result: Bool) -> Void) {
