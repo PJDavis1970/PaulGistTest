@@ -395,7 +395,24 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fSA-gO-mhh" id="KNn-Zq-xfE">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSg-kj-vMs">
+                                                    <rect key="frame" x="15" y="4" width="345" height="35.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="sSg-kj-vMs" secondAttribute="bottom" constant="4" id="4Zd-wX-MPW"/>
+                                                <constraint firstAttribute="trailing" secondItem="sSg-kj-vMs" secondAttribute="trailing" constant="15" id="ETc-Bb-lmr"/>
+                                                <constraint firstItem="sSg-kj-vMs" firstAttribute="top" secondItem="KNn-Zq-xfE" secondAttribute="top" constant="4" id="lW1-Lc-dSN"/>
+                                                <constraint firstItem="sSg-kj-vMs" firstAttribute="leading" secondItem="KNn-Zq-xfE" secondAttribute="leading" constant="15" id="u1M-Vw-eUh"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textPT" destination="sSg-kj-vMs" id="GUk-vL-Nzr"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GistCommentViewCellReuse" id="paq-ke-SOv" customClass="GistCommentViewCell" customModule="PaulGistTest" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="156" width="375" height="44"/>

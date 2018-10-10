@@ -93,8 +93,18 @@ final class GistManager {
         
         if let gist = currentGist {
 
+            // creacte the header cell data
             let header = GistHeader(gist: gist)
             data.append(["type":"header","data":header])
+            
+            // create the file cells data
+            if let files = gist["files"] {
+            
+
+            }
+            
+            // create the comment cells data
+            
         }
         
         return data

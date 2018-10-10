@@ -10,13 +10,15 @@ import UIKit
 
 class GistFileViewCell: UITableViewCell {
     
+    @IBOutlet weak var textPT: UITextView!
     
     override func awakeFromNib() {
         
         super.awakeFromNib()
     }
     
-    func setupWith() {
+    func setupWith(data: [String: Any]) {
         
+        print(data)
     }
 }

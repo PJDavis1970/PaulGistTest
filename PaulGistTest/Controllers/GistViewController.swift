@@ -93,6 +93,16 @@ extension GistViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.setupWith(data: head)
                     return cell
                 }
+                
+                if type == "files" {
+                    
+                    let cell = tableView.dequeueReusableCell( withIdentifier: "GistFileViewCellReuse",
+                                                              for: indexPath) as! GistFileViewCell
+                    
+                    let file: [String: Any] = (index["data"] as? [String: Any])!
+                    cell.setupWith(data: file)
+                    return cell
+                }
             }
         }
         
