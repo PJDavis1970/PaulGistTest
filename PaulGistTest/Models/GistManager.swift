@@ -102,10 +102,18 @@ final class GistManager {
         
         if let gist = self.currentGist {
         
+            // create the gist geader section
             let header = GistDisplayEntry(type: GistDisplayType.header, data: GistDisplayHeader(gist: gist))
             list.append(header)
         
+            // create all the file sections
+            for file in gist.files.file_list {
+                
+                let file = GistDisplayEntry(type: GistDisplayType.file, data: file)
+                list.append(file)
+            }
             
+
         }
         return list
     }

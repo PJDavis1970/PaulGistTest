@@ -23,6 +23,7 @@ class GistViewController: UIViewController, UITextViewDelegate {
         
         textView.delegate = self
         tableView.estimatedRowHeight = 84
+        tableView.contentInset = UIEdgeInsets(top: 20,left: 0,bottom: 0,right: 0)
         
         // add a touch recognizer to remove keyboard on screen touch
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
@@ -84,7 +85,7 @@ extension GistViewController: UITableViewDataSource, UITableViewDelegate {
                 return 84
                 
             case .file:
-                return 84
+                return 124
                 
             case .comment:
                 return 84
