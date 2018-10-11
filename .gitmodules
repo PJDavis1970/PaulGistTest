@@ -1,6 +1,3 @@
-[submodule "SDWebImage"]
-	path = SDWebImage
-	url = https://github.com/rs/SDWebImage.git
 [submodule "Kingfisher"]
 	path = Kingfisher
 	url = https://github.com/onevcat/Kingfisher.git
