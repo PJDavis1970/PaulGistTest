@@ -2,7 +2,15 @@
 
 A Quick iOS Swift 4 example of commenting on a Gist
 
-To use just download and load the xcode project file into xcode, compile, run and away you go.
+Installation :
+
+- Download project
+
+- Install Kingfisher
+
+from project root directory run
+git submodule add https://github.com/onevcat/Kingfisher.git
+
 
 Some Gist QR Codes for testing
 
