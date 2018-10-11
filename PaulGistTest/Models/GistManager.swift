@@ -105,6 +105,7 @@ final class GistManager {
             let header = GistDisplayEntry(type: GistDisplayType.header, data: GistDisplayHeader(gist: gist))
             list.append(header)
         
+            
         }
         return list
     }

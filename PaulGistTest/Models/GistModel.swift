@@ -39,7 +39,13 @@ class GistDisplayHeader {
     init(gist: GistObject) {
         
         self.name = gist.owner.login
-        self.descrip = gist.description
+        
+        var descripText = ""
+        if let des = gist.description {
+            
+            descripText = des
+        }
+        self.descrip = descripText
         self.imageUrl = gist.owner.avatar_url
     }
 }
@@ -54,23 +60,33 @@ class GistDisplayComment {
 
 class GistBookmark : NSObject, Codable {
     
-    var login: String = ""
-    var descrip: String = ""
-    var id: String = ""
-    var imageUrl: String = ""
+    let login: String
+    let descrip: String
+    let id: String
+    let imageUrl: String
     
     init(gist: GistObject) {
         
         self.login = gist.owner.login
         self.imageUrl = gist.owner.avatar_url
-        self.descrip = gist.description
+        
+        var descripText = ""
+        if let des = gist.description {
+            
+            descripText = des
+        }
+        self.descrip = descripText
         self.id = gist.id        
     }
 }
 
 
 
-
+//========================================================================
+// GIST API data structures.
+// TODO : Make all values from API optional.  We do not know which values will be present and
+// to prevent any form of crashes we have to assume any value could be missing.
+//
 // GistObject this is the codable object for the main Gist data sctructure
 class GistObject : Codable {
     
@@ -86,14 +102,14 @@ class GistObject : Codable {
     let _public: Bool
     let created_at: String
     let updated_at: String
-    let description: String
+    var description: String? = nil
     let comments: Int
     let user: GistUser?
     let comments_url: String
     let owner: GistOwner
     let truncated: Bool
     let forks: [GistForks]
-    //    let history: GistHistory
+    let history: [GistHistory]
     
     enum CodingKeys: String, CodingKey {
 
@@ -116,6 +132,7 @@ class GistObject : Codable {
         case owner = "owner"
         case truncated = "truncated"
         case forks = "forks"
+        case history = "history"
     }
     
     required init(from decoder: Decoder) throws {
@@ -134,14 +151,14 @@ class GistObject : Codable {
         self._public = try values.decode(Bool.self, forKey: ._public)
         self.created_at = try values.decode(String.self, forKey: .created_at)
         self.updated_at = try values.decode(String.self, forKey: .updated_at)
-        self.description = try values.decode(String.self, forKey: .description)
+        self.description = try values.decodeIfPresent(String.self, forKey: .description)
         self.comments = try values.decode(Int.self, forKey: .comments)
         self.user = nil
         self.comments_url = try values.decode(String.self, forKey: .comments_url)
         self.owner = try values.decode(GistOwner.self, forKey: .owner)
         self.truncated = try values.decode(Bool.self, forKey: .truncated)
         self.forks = try values.decode([GistForks].self, forKey: .forks)
- //       self.history = try values.decode(GistHistory.self, forKey: .history)
+        self.history = try values.decode([GistHistory].self, forKey: .history)
     }
 }
 
@@ -313,40 +330,36 @@ class GistUser: Codable {
 
 //GistHistory this is the codable structure for Gist History
 class GistHistory : Codable {
-    /*
-    "history": [
-    {
-    "url": "https://api.github.com/gists/aa5a315d61ae9438b18d/57a7f021a713b1c5a6a199b54cc514735d2d462f",
-    "version": "57a7f021a713b1c5a6a199b54cc514735d2d462f",
-    "user": {
-    "login": "octocat",
-    "id": 1,
-    "node_id": "MDQ6VXNlcjE=",
-    "avatar_url": "https://github.com/images/error/octocat_happy.gif",
-    "gravatar_id": "",
-    "url": "https://api.github.com/users/octocat",
-    "html_url": "https://github.com/octocat",
-    "followers_url": "https://api.github.com/users/octocat/followers",
-    "following_url": "https://api.github.com/users/octocat/following{/other_user}",
-    "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
-    "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
-    "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
-    "organizations_url": "https://api.github.com/users/octocat/orgs",
-    "repos_url": "https://api.github.com/users/octocat/repos",
-    "events_url": "https://api.github.com/users/octocat/events{/privacy}",
-    "received_events_url": "https://api.github.com/users/octocat/received_events",
-    "type": "User",
-    "site_admin": false
-    },
-    "change_status": {
-    "deletions": 0,
-    "additions": 180,
-    "total": 180
-    },
-    "committed_at": "2010-04-14T02:15:15Z"
+    
+    let url: String
+    let version: String
+    let change_status: GistChangeStatus
+    let committed_at: String
+ 
+    required init(from decoder: Decoder) throws {
+        
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.url = try values.decode(String.self, forKey: .url)
+        self.version = try values.decode(String.self, forKey: .version)
+        self.change_status = try values.decode(GistChangeStatus.self, forKey: .change_status)
+        self.committed_at = try values.decode(String.self, forKey: .committed_at)
     }
-    ]
- */
 }
 
+class GistChangeStatus : Codable {
+    
+    let deletions: Int
+    let additions: Int
+    let total: Int
+    
+    required init(from decoder: Decoder) throws {
+        
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.deletions = try values.decode(Int.self, forKey: .deletions)
+        self.additions = try values.decode(Int.self, forKey: .additions)
+        self.total = try values.decode(Int.self, forKey: .total)
+    }
+}
 
