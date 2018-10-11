@@ -6,7 +6,7 @@ To use just download and load the xcode project file into xcode, compile, run an
 
 Some Gist QR Codes for testing
 
-
+![alt text](https://github.com/PJDavis1970/PaulGistTest/blob/develop/qr7.png)
 ![alt text](https://github.com/PJDavis1970/PaulGistTest/blob/develop/qr6.png)
 ![alt text](https://github.com/PJDavis1970/PaulGistTest/blob/develop/qr5.png)
 ![alt text](https://github.com/PJDavis1970/PaulGistTest/blob/develop/qr4.png)
