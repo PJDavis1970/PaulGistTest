@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class HistoryListViewCell: UITableViewCell {
     
@@ -20,11 +21,9 @@ class HistoryListViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func setupWith(data: GistHeader) {
-
-        imagePT.load(url: URL(fileURLWithPath: data.imageUrl))
+    func setupWith(data: GistBookmark) {
         
-        self.imagePT.imageFromURL(urlString: data.imageUrl)
+        imagePT.kf.setImage(with: URL(string: data.imageUrl))
         
         namePT.text = "\(data.login)"
         textPT.text = "\(data.descrip)"

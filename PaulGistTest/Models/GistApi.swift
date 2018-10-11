@@ -19,7 +19,7 @@ class GistApi {
     }
     
     enum Result<Value> {
-        case success(Value)
+        case success(GistObject)
         case failure()
     }
 
@@ -37,53 +37,27 @@ class GistApi {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         
-        // make the request
-        let task = session.dataTask(with: urlRequest) { (data, response, error) in
-            
-            // check for any errors
-            guard error == nil else {
-                
-                print("error calling GET")
-                print(error!)
-                completion(.failure())
-                return
-            }
-            // make sure we got data
+        let task = session.dataTask(with: urlRequest, completionHandler: {
+            (data, response, error) in
             guard let responseData = data else {
-                
-                print("Error: did not receive data")
                 completion(.failure())
                 return
             }
-            // parse the result as JSON, since that's what the API provides
+            guard error == nil else {
+                completion(.failure())
+                return
+            }
+            
+            let decoder = JSONDecoder()
             do {
-                
-                guard let gistData = try JSONSerialization.jsonObject(with: responseData, options: [])
-                    as? [String: Any] else {
-                        
-                        print("error trying to convert data to JSON")
-                        completion(.failure())
-                        return
-                }
-                                
-                // TODO add proper error checking on returned data.  if we have hit api but have incorrect data we will get
-                // errors back.  This needs checking.  For now I will just hack in something to decide if we have a gist or not
-                
-                if gistData.count > 2 {
-                    
-                    completion(.success(gistData))
-                } else {
-                    
-                    completion(.failure())
-                }
-                return
-                
-            } catch  {
-                
+                let gistObject = try decoder.decode(GistObject.self, from: responseData)
+                    completion(.success(gistObject))
+            } catch {
                 print("error trying to convert data to JSON")
+                print(error)
                 completion(.failure())
             }
-        }
-        task.resume()
+        })
+       task.resume()
     }
 }

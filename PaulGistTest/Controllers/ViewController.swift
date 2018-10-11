@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var history:[GistHeader]?
+    var bookmarks:[GistBookmark]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         
-        history = GistManager.sharedInstance.getHistory()
+        bookmarks = GistManager.sharedInstance.getBookmarks()
         tableView.reloadData()
     }
     
@@ -40,19 +40,6 @@ class ViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func test(_ sender: Any) {
-        GistApi.sharedInstance.getGist(id: "") { (result) in
-            switch result {
-            case .success(let posts): break
-            //self.posts = posts
-            case .failure():
-                fatalError("error:")
-            }
-        }
-    }
-    
-
-    
 }
 
 
@@ -62,11 +49,16 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let data = history else {
+        guard let data = bookmarks else {
             
             return 0
         }
         return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return 128
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,7 +66,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell( withIdentifier: "HistoryListViewReuseCell",
                                                   for: indexPath) as! HistoryListViewCell
         
-        if let data = history {
+        if let data = bookmarks {
             
             cell.setupWith(data: data[indexPath.row])
         }
@@ -86,18 +78,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if let data = history {
+        if let data = bookmarks {
             
-            GistManager.sharedInstance.getGist(id: data[indexPath.row].id) {
-                (result: Bool) in
-                
-                if result == true {
-                    
-                    let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                    let nextViewController = storyBoard.instantiateViewController(withIdentifier: "GistViewController") as! GistViewController
-                    self.present(nextViewController, animated:true, completion:nil)
-                }
-            }
+            GistManager.sharedInstance.setSelectedGistId(id: data[indexPath.row].id)
+            
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "GistViewController") as! GistViewController
+            self.present(nextViewController, animated:true, completion:nil)
         }
     }
 }

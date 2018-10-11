@@ -12,44 +12,52 @@ final class GistManager {
     
     static let sharedInstance = GistManager()
     
-    var gistHistory: [GistHeader]?
-    var currentGist: [String: Any]?
-    
+    var gistBookmarks: [GistBookmark]?
+    var currentGist: GistObject?
+    var selectedGistId: String = ""
     
     private init() {
         
-        retrieveHistory()
+        retrieveBookmarks()
+    }
+    
+    func setSelectedGistId(id: String) {
+    
+        selectedGistId = id
+    }
+    
+    func getSelectedGistId() -> String {
+        
+        return selectedGistId
     }
     
     // retrieve our history from user defaults
-    func retrieveHistory() {
+    func retrieveBookmarks() {
         
-        if let data = UserDefaults.standard.data(forKey: "history") {
+        if let data = UserDefaults.standard.data(forKey: "bookmarks") {
             
-            self.gistHistory = try? JSONDecoder().decode([GistHeader].self, from: data)
+            self.gistBookmarks = try? JSONDecoder().decode([GistBookmark].self, from: data)
         }
     }
     
-    
     // save our history to user defaults
-    func saveHistory() {
+    func saveBookmarks() {
         
-        if let encoded = try? JSONEncoder().encode(gistHistory) {
+        if let encoded = try? JSONEncoder().encode(gistBookmarks) {
             
-            UserDefaults.standard.set(encoded, forKey: "history")
+            UserDefaults.standard.set(encoded, forKey: "bookmarks")
             UserDefaults.standard.synchronize();
         }
     }
     
     // return our gist history
-    func getHistory() -> [GistHeader]? {
+    func getBookmarks() -> [GistBookmark]? {
         
-        return gistHistory
+        return gistBookmarks
     }
     
-    // we have been asked to add a gist to history.  if invalid return false to let view know its wrong.
-    // if we have a valid gist then add it to top of our history then our gist view will use this to display our gist
-    func addToHistory( id: String , completion: @escaping (_ result: Bool) -> Void) {
+    // query gist from api and add gist to our bookmarks
+    func getGist( id: String , completion: @escaping (_ result: Bool) -> Void) {
         
         GistApi.sharedInstance.getGist(id: id) { [weak self] (result) in
             switch result {
@@ -57,14 +65,26 @@ final class GistManager {
 
                     // save the gist for later use
                     self?.currentGist = data
-                    let newGist = GistHeader(gist: data)
                     
-                    if self?.gistHistory == nil {
+                    // create our history record
+                    let newGist = GistBookmark(gist: data)
+                    
+                    // if we have no history database create one
+                    if self?.gistBookmarks == nil {
 
-                        self?.gistHistory = [GistHeader]()
+                        self?.gistBookmarks = [GistBookmark]()
                     }
-                    self?.gistHistory?.insert(newGist, at: 0)
-                    self?.saveHistory()
+                    
+                    // hate forcing unwraps but we know we have data in here
+                    
+                    // find and remove any duplicates
+                    if let index = self?.gistBookmarks!.index(where: { $0.id == newGist.id }) {
+                        self?.gistBookmarks!.remove(at: index)
+                    }
+                        
+                    self?.gistBookmarks?.insert(newGist, at: 0)
+                    self?.saveBookmarks()
+
                     completion(true)
                     break
 
@@ -75,61 +95,20 @@ final class GistManager {
         }
     }
     
-    
-    // returns the header information for the Gist
-    func getCurrentGistHeader() -> GistHeader? {
+    // returns a list of each display section
+    func getCurrentGistDisplay() -> [GistDisplayEntry]? {
         
-        if let data = currentGist {
-            
-            return GistHeader(gist: data)
+        var list: [GistDisplayEntry] = [GistDisplayEntry]()
+        
+        if let gist = self.currentGist {
+        
+            let header = GistDisplayEntry(type: GistDisplayType.header, data: GistDisplayHeader(gist: gist))
+            list.append(header)
+        
         }
-        return nil
+        return list
     }
     
-    // returns a full data structure to display in Gist View
-    func getCurrentGistDisplayData() -> [[String: Any]] {
-        
-        var data: [[String: Any]] = [[String: Any]]()
-        
-        if let gist = currentGist {
 
-            // creacte the header cell data
-            let header = GistHeader(gist: gist)
-            data.append(["type":"header","data":header])
-            
-            // create the file cells data
-            if let files = gist["files"] {
-            
 
-            }
-            
-            // create the comment cells data
-            
-        }
-        
-        return data
-    }
-    
-    
-    // retrieve a Gist from id
-    func getGist( id: String , completion: @escaping (_ result: Bool) -> Void) {
-        
-        GistApi.sharedInstance.getGist(id: id) { [weak self] (result) in
-            switch result {
-            case .success(let data):
-                
-                // save the gist for later use
-                self?.currentGist = data
-                print(data)
-                completion(true)
-                break
-                
-            case .failure():
-                completion(false)
-                break
-            }
-        }
-    }
-
-    
 }

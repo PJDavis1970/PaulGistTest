@@ -123,21 +123,11 @@ class QRScannerViewController: UIViewController {
             // we need to remove the http:// section of teh gist string as we dont need this.
             let updatedGist = gistString.replacingOccurrences(of: "http://", with: "")
             
-            // we need to check if we have a valid QR code.  If it is a Gist QR then open out gist view else go back to our main view
-            GistManager.sharedInstance.addToHistory(id: updatedGist) {
-                (result: Bool) in
-                
-                if result == true {
-                    
-                    let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                    let nextViewController = storyBoard.instantiateViewController(withIdentifier: "GistViewController") as! GistViewController
-                    self.present(nextViewController, animated:true, completion:nil)
-                } else {
-                    
-                    // was an invalid QR code so unwind to home
-                    self.performSegue(withIdentifier: "unwindToHome", sender: self)
-                }
-            }
+            GistManager.sharedInstance.setSelectedGistId(id: updatedGist)
+            
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "GistViewController") as! GistViewController
+            self.present(nextViewController, animated:true, completion:nil)
             
         })
         

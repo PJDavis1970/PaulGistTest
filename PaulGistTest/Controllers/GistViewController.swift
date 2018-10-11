@@ -11,23 +11,37 @@ import AVFoundation
 
 class GistViewController: UIViewController, UITextViewDelegate {
 
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var commentView: UIView!
     
-    var gistdata: [[String: Any]]?
+    var gistDisplayData: [GistDisplayEntry]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         textView.delegate = self
+        tableView.estimatedRowHeight = 84
         
         // add a touch recognizer to remove keyboard on screen touch
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
         
-        gistdata = GistManager.sharedInstance.getCurrentGistDisplayData()
-   }
+        DispatchQueue.main.async {
+        GistManager.sharedInstance.getGist(id: GistManager.sharedInstance.getSelectedGistId()) {
+            [weak self] (result: Bool) in
+            
+            if result == true {
+
+                self?.gistDisplayData = GistManager.sharedInstance.getCurrentGistDisplay()
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            }
+        }
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -50,59 +64,62 @@ extension GistViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let data = gistdata {
+        guard let data = gistDisplayData else {
             
-            return data.count
+            return 0
         }
         
-        return 0
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if let data = gistdata {
+        if let data = gistDisplayData {
             
-            let index = data[indexPath.row]
+            let entry = data[indexPath.row]
             
-            if let type: String = index["type"] as? String {
+            switch entry.type {
                 
-                if type == "header" {
-                    
-                    return 84
-                }
+            case .header:
+                return 84
+                
+            case .file:
+                return 84
+                
+            case .comment:
+                return 84
             }
         }
         
         return 20
     }
-    
+ 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let data = gistdata {
+        if let data = gistDisplayData {
             
-            let index = data[indexPath.row]
+            let entry = data[indexPath.row]
             
-            if let type: String = index["type"] as? String {
-
-                if type == "header" {
-                    
-                    let cell = tableView.dequeueReusableCell( withIdentifier: "GistHeaderViewCellReuse",
-                                                              for: indexPath) as! GistHeaderViewCell
-                    
-                    let head: GistHeader = (index["data"] as? GistHeader)!
-                    cell.setupWith(data: head)
-                    return cell
-                }
+            switch entry.type {
                 
-                if type == "files" {
+            case .header:
                     
-                    let cell = tableView.dequeueReusableCell( withIdentifier: "GistFileViewCellReuse",
-                                                              for: indexPath) as! GistFileViewCell
+                let cell = tableView.dequeueReusableCell( withIdentifier: "GistHeaderViewCellReuse",
+                                                            for: indexPath) as! GistHeaderViewCell
+                cell.setupWith(data: entry.data as! GistDisplayHeader)
+                return cell
+
+            case .file:
                     
-                    let file: [String: Any] = (index["data"] as? [String: Any])!
-                    cell.setupWith(data: file)
-                    return cell
-                }
+                let cell = tableView.dequeueReusableCell( withIdentifier: "GistFileViewCellReuse",
+                                                            for: indexPath) as! GistFileViewCell
+                    
+//                let file: [String: Any] = (index["data"] as? [String: Any])!
+//                cell.setupWith(data: file)
+                return cell
+                
+            case .comment:
+                break
             }
         }
         

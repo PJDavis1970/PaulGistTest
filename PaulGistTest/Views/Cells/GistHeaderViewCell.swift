@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class GistHeaderViewCell: UITableViewCell {
     
@@ -19,10 +20,11 @@ class GistHeaderViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func setupWith(data: GistHeader) {
+    func setupWith(data: GistDisplayHeader) {
         
-        self.imagePT.imageFromURL(urlString: data.imageUrl)
-        self.namePT.text = data.login
+        imagePT.kf.setImage(with: URL(string: data.imageUrl))
+        
+        self.namePT.text = data.name
         self.descripPT.text = data.descrip
     }
 }
