@@ -112,6 +112,7 @@ class GistObject : Codable {
     let truncated: Bool
     let forks: [GistForks]
     let history: [GistHistory]
+    var comment_list: [GistComment]? = nil
     
     enum CodingKeys: String, CodingKey {
 
@@ -365,3 +366,26 @@ class GistChangeStatus : Codable {
     }
 }
 
+class GistComment : Codable {
+
+    let id: Int
+    let node_id: String
+    let url: String
+    let body: String
+    let user: GistUser
+    let created_at: String
+    let updated_at: String
+    
+    required init(from decoder: Decoder) throws {
+        
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.id = try values.decode(Int.self, forKey: .id)
+        self.node_id = try values.decode(String.self, forKey: .node_id)
+        self.url = try values.decode(String.self, forKey: .url)
+        self.body = try values.decode(String.self, forKey: .body)
+        self.user = try values.decode(GistUser.self, forKey: .user)
+        self.created_at = try values.decode(String.self, forKey: .created_at)
+        self.updated_at = try values.decode(String.self, forKey: .updated_at)
+    }
+}

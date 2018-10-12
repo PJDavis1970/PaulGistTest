@@ -9,13 +9,19 @@
 import UIKit
 import AVFoundation
 
+/*
+protocol GistCellViewDelegate {
+    
+    func updated(height: CGFloat, viewId: Int)
+}
+*/
 class GistViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var commentView: UIView!
     
-    var expandingCellHeight: CGFloat = 64
+//    var expandingCellHeight: CGFloat = 64
     
     var gistDisplayData: [GistDisplayEntry]?
     
@@ -24,6 +30,7 @@ class GistViewController: UIViewController, UITextViewDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         textView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 84
         tableView.contentInset = UIEdgeInsets(top: 20,left: 0,bottom: 0,right: 0)
         
@@ -32,17 +39,20 @@ class GistViewController: UIViewController, UITextViewDelegate {
         self.view.addGestureRecognizer(tapGesture)
         
         DispatchQueue.main.async {
-        GistManager.sharedInstance.getGist(id: GistManager.sharedInstance.getSelectedGistId()) {
-            [weak self] (result: Bool) in
+            GistManager.sharedInstance.getGist(id: GistManager.sharedInstance.getSelectedGistId()) {
+                [weak self] (result: Bool) in
             
-            if result == true {
+                if result == true {
 
-                self?.gistDisplayData = GistManager.sharedInstance.getCurrentGistDisplay()
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self?.gistDisplayData = GistManager.sharedInstance.getCurrentGistDisplay()
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                    }
+                } else {
+                    
+                    self?.navigationController?.popViewController(animated: true)
                 }
             }
-        }
         }
     }
     
@@ -94,12 +104,17 @@ extension GistViewController: UITableViewDataSource {
                     
                 let cell = tableView.dequeueReusableCell( withIdentifier: "GistFileViewCellReuse",
                                                             for: indexPath) as! GistFileViewCell
-                cell.delegate = self
-                cell.setupWith(data: entry.data as! GistFile)
+//                cell.delegate = self
+                cell.setupWith(data: entry.data as! GistFile, viewId: indexPath.row)
                 return cell
                 
             case .comment:
-                break
+                
+                let cell = tableView.dequeueReusableCell( withIdentifier: "GistCommentViewCellReuse",
+                                                          for: indexPath) as! GistCommentViewCell
+//                cell.delegate = self
+                cell.setupWith(data: entry.data as! GistComment, viewId: indexPath.row)
+                return cell
             }
         }
         
@@ -119,30 +134,13 @@ extension GistViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if let data = gistDisplayData {
-            
-            let entry = data[indexPath.row]
-            
-            switch entry.type {
-                
-            case .header:
-                return 84
-                
-            case .file:
-                return expandingCellHeight
-                
-            case .comment:
-                return 84
-            }
-        }
-        
-        return 20
+        return UITableViewAutomaticDimension
     }
 }
-
-extension GistViewController: GistFileViewCellDelegate {
+/*
+extension GistViewController: GistCellViewDelegate {
     
-    func updated(height: CGFloat) {
+    func updated(height: CGFloat, viewId: Int) {
         
         expandingCellHeight = height
         
@@ -154,10 +152,6 @@ extension GistViewController: GistFileViewCellDelegate {
         tableView.endUpdates()
         // Re-enable animations
         UIView.setAnimationsEnabled(true)
-        
-        let indexPath = IndexPath(row: 1, section: 0)
-        
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
     }
 }
 
@@ -181,3 +175,4 @@ fileprivate extension GistViewController {
         tableView.contentInset.bottom = keyboardHeight
     }
 }
+*/

@@ -120,11 +120,14 @@ class QRScannerViewController: UIViewController {
             
             self.scannerActive = false
             
-            // we need to remove the http:// section of teh gist string as we dont need this.
-            let updatedGist = gistString.replacingOccurrences(of: "http://", with: "")
+            // we only want the gist id section
+            let nameArray = gistString.components(separatedBy: "/")
+            let updatedGist = nameArray.last
             
-            GistManager.sharedInstance.setSelectedGistId(id: updatedGist)
+            if let id = updatedGist {
             
+                GistManager.sharedInstance.setSelectedGistId(id: id)
+            }
             let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "GistViewController") as! GistViewController
             self.present(nextViewController, animated:true, completion:nil)

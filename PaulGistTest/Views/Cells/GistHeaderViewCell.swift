@@ -29,7 +29,6 @@ class GistHeaderViewCell: UITableViewCell {
         self.descripPT.text = data.descrip
         
         let dateFormatter = DateFormatter()
-        
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZ"
         let date = dateFormatter.date(from: data.created)
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy"

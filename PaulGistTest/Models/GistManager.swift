@@ -109,11 +109,19 @@ final class GistManager {
             // create all the file sections
             for file in gist.files.file_list {
                 
-                let file = GistDisplayEntry(type: GistDisplayType.file, data: file)
-                list.append(file)
+                let f = GistDisplayEntry(type: GistDisplayType.file, data: file)
+                list.append(f)
             }
             
-
+            // create all the comment sections
+            if let comments = gist.comment_list {
+                
+                for comment in comments {
+                
+                    let c = GistDisplayEntry(type: GistDisplayType.comment, data: comment)
+                    list.append(c)
+                }
+            }
         }
         return list
     }

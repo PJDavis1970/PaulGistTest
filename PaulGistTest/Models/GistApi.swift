@@ -51,13 +51,52 @@ class GistApi {
             let decoder = JSONDecoder()
             do {
                 let gistObject = try decoder.decode(GistObject.self, from: responseData)
+                
+                if gistObject.comments > 0 {
+                    
+                    // now get the comments
+                    let todoEndpoint: String = "https://api.github.com/gists/\(id)/comments"
+                    guard let url = URL(string: todoEndpoint) else {
+                        
+                        print("Error: cannot create URL")
+                        return
+                    }
+                    let urlRequest = URLRequest(url: url)
+                    let task = session.dataTask(with: urlRequest, completionHandler: {
+                    (   data, response, error) in
+                        guard let responseComments = data else {
+                            completion(.failure())
+                            return
+                        }
+                        guard error == nil else {
+                            completion(.failure())
+                            return
+                        }
+                    
+                        let decoder = JSONDecoder()
+                        do {
+                            let gistComments = try decoder.decode([GistComment].self, from: responseComments)
+                        
+                            gistObject.comment_list = gistComments
+                            completion(.success(gistObject))
+                        } catch {
+                            print("error trying to convert data to JSON")
+                            print(error)
+                            completion(.failure())
+                        }
+                    })
+                    task.resume()
+                } else {
+                    
                     completion(.success(gistObject))
+                }
+                
             } catch {
                 print("error trying to convert data to JSON")
                 print(error)
                 completion(.failure())
             }
         })
-       task.resume()
+        task.resume()
     }
 }
