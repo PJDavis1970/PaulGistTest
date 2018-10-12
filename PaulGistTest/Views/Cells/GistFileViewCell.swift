@@ -8,17 +8,43 @@
 
 import UIKit
 
-class GistFileViewCell: UITableViewCell {
+
+protocol GistFileViewCellDelegate {
     
+    func updated(height: CGFloat)
+}
+
+class GistFileViewCell: UITableViewCell {
+
+    @IBOutlet weak var fileImagePT: UIImageView!
+    @IBOutlet weak var fileNamePT: UILabel!
     @IBOutlet weak var textPT: UITextView!
+    
+    var delegate: GistFileViewCellDelegate?
     
     override func awakeFromNib() {
         
         super.awakeFromNib()
+        
+        textPT.delegate = self
     }
     
-    func setupWith(data: [String: Any]) {
+    func setupWith(data: GistFile) {
         
-        print(data)
+        fileNamePT.text = data.filename
+        textPT.text = data.content
+        
+        // we need to force a textViewDidChange method
+        let textRange = textPT.textRange(from: textPT.beginningOfDocument, to: textPT.endOfDocument)
+        textPT.replace(textRange!, withText: data.content)
+    }
+}
+
+extension GistFileViewCell: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        let height = textPT.newHeight(withBaseHeight: 64) + 40 // add the cell header area height
+        delegate?.updated(height: height)
     }
 }

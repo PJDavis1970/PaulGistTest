@@ -15,6 +15,8 @@ class GistViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var commentView: UIView!
     
+    var expandingCellHeight: CGFloat = 64
+    
     var gistDisplayData: [GistDisplayEntry]?
     
     override func viewDidLoad() {
@@ -61,7 +63,7 @@ class GistViewController: UIViewController, UITextViewDelegate {
 
 // MARK: - Table view data source
 
-extension GistViewController: UITableViewDataSource, UITableViewDelegate {
+extension GistViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -73,28 +75,6 @@ extension GistViewController: UITableViewDataSource, UITableViewDelegate {
         return data.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if let data = gistDisplayData {
-            
-            let entry = data[indexPath.row]
-            
-            switch entry.type {
-                
-            case .header:
-                return 84
-                
-            case .file:
-                return 124
-                
-            case .comment:
-                return 84
-            }
-        }
-        
-        return 20
-    }
- 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let data = gistDisplayData {
@@ -114,9 +94,8 @@ extension GistViewController: UITableViewDataSource, UITableViewDelegate {
                     
                 let cell = tableView.dequeueReusableCell( withIdentifier: "GistFileViewCellReuse",
                                                             for: indexPath) as! GistFileViewCell
-                    
-//                let file: [String: Any] = (index["data"] as? [String: Any])!
-//                cell.setupWith(data: file)
+                cell.delegate = self
+                cell.setupWith(data: entry.data as! GistFile)
                 return cell
                 
             case .comment:
@@ -133,5 +112,72 @@ extension GistViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
 
+    }
+}
+
+extension GistViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if let data = gistDisplayData {
+            
+            let entry = data[indexPath.row]
+            
+            switch entry.type {
+                
+            case .header:
+                return 84
+                
+            case .file:
+                return expandingCellHeight
+                
+            case .comment:
+                return 84
+            }
+        }
+        
+        return 20
+    }
+}
+
+extension GistViewController: GistFileViewCellDelegate {
+    
+    func updated(height: CGFloat) {
+        
+        expandingCellHeight = height
+        
+        // Disabling animations gives us our desired behaviour
+        UIView.setAnimationsEnabled(false)
+        /* These will causes table cell heights to be recaluclated,
+         without reloading the entire cell */
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        // Re-enable animations
+        UIView.setAnimationsEnabled(true)
+        
+        let indexPath = IndexPath(row: 1, section: 0)
+        
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+    }
+}
+
+fileprivate extension GistViewController {
+    
+    fileprivate func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillChangeFrame, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        
+        guard let userInfo = notification.userInfo,
+            let keyBoardValueBegin = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue,
+            let keyBoardValueEnd = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue, keyBoardValueBegin != keyBoardValueEnd else {
+                return
+        }
+        
+        let keyboardHeight = keyBoardValueEnd.height
+        
+        tableView.contentInset.bottom = keyboardHeight
     }
 }

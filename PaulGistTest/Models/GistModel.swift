@@ -35,6 +35,7 @@ class GistDisplayHeader {
     var name: String
     var descrip: String
     var imageUrl: String
+    var created: String
     
     init(gist: GistObject) {
         
@@ -47,6 +48,7 @@ class GistDisplayHeader {
         }
         self.descrip = descripText
         self.imageUrl = gist.owner.avatar_url
+        self.created = gist.created_at
     }
 }
 

@@ -354,15 +354,25 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YUv-NZ-lZT">
+                                                            <rect key="frame" x="59" y="30" width="308" height="21"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="YUv-NZ-lZT" secondAttribute="bottom" constant="4" id="15k-85-Wpq"/>
                                                         <constraint firstAttribute="bottom" secondItem="c50-F6-jvX" secondAttribute="bottom" constant="4" id="46p-NY-AGR"/>
                                                         <constraint firstAttribute="height" constant="55" id="5Ut-yQ-vlU"/>
                                                         <constraint firstItem="9NM-Ky-CKo" firstAttribute="top" secondItem="WAS-kU-5F4" secondAttribute="top" constant="4" id="6Xf-vl-bEN"/>
+                                                        <constraint firstItem="YUv-NZ-lZT" firstAttribute="top" secondItem="9NM-Ky-CKo" secondAttribute="bottom" constant="5" id="Bkc-uD-7TU"/>
                                                         <constraint firstAttribute="bottom" secondItem="9NM-Ky-CKo" secondAttribute="bottom" constant="30" id="EgQ-Sf-YYa"/>
                                                         <constraint firstItem="9NM-Ky-CKo" firstAttribute="leading" secondItem="c50-F6-jvX" secondAttribute="trailing" constant="8" id="EtR-zE-kwp"/>
+                                                        <constraint firstAttribute="trailing" secondItem="YUv-NZ-lZT" secondAttribute="trailing" constant="8" id="H0b-4q-jMF"/>
                                                         <constraint firstItem="c50-F6-jvX" firstAttribute="top" secondItem="WAS-kU-5F4" secondAttribute="top" constant="4" id="OLo-ua-TcA"/>
+                                                        <constraint firstItem="YUv-NZ-lZT" firstAttribute="leading" secondItem="c50-F6-jvX" secondAttribute="trailing" constant="8" id="lsA-fT-Hqe"/>
                                                         <constraint firstItem="c50-F6-jvX" firstAttribute="leading" secondItem="WAS-kU-5F4" secondAttribute="leading" constant="4" id="tzJ-9v-cPZ"/>
                                                         <constraint firstAttribute="trailing" secondItem="9NM-Ky-CKo" secondAttribute="trailing" constant="8" id="zcO-bA-aeU"/>
                                                     </constraints>
@@ -384,6 +394,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="createdPT" destination="YUv-NZ-lZT" id="agO-mI-3GB"/>
                                             <outlet property="descripPT" destination="59E-04-cHZ" id="nAl-at-8G1"/>
                                             <outlet property="imagePT" destination="c50-F6-jvX" id="c9O-TE-JOq"/>
                                             <outlet property="namePT" destination="9NM-Ky-CKo" id="bRJ-kx-awO"/>
@@ -402,9 +413,35 @@
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="inJ-Dj-q0V">
                                                     <rect key="frame" x="12" y="1" width="351" height="40"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EKo-64-ZoY">
+                                                            <rect key="frame" x="31" y="0.0" width="313" height="40"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FileIcon" translatesAutoresizingMaskIntoConstraints="NO" id="qWm-2w-ehc">
+                                                            <rect key="frame" x="8" y="12" width="14.5" height="16"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="qWm-2w-ehc" secondAttribute="height" multiplier="10:11" id="1xt-L3-ZXH"/>
+                                                                <constraint firstAttribute="height" constant="16" id="C3k-nw-Xro"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
                                                     <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="EKo-64-ZoY" secondAttribute="bottom" id="8Lk-Xs-ZiO"/>
+                                                        <constraint firstItem="EKo-64-ZoY" firstAttribute="top" secondItem="inJ-Dj-q0V" secondAttribute="top" id="9GG-E5-Xaw"/>
+                                                        <constraint firstItem="EKo-64-ZoY" firstAttribute="leading" secondItem="qWm-2w-ehc" secondAttribute="trailing" constant="8.5" id="Aqb-Nr-Qer"/>
+                                                        <constraint firstAttribute="bottom" secondItem="qWm-2w-ehc" secondAttribute="bottom" constant="12" id="Mwj-Q2-9J2"/>
+                                                        <constraint firstAttribute="trailing" secondItem="EKo-64-ZoY" secondAttribute="trailing" constant="7" id="ViN-Ix-WE6"/>
+                                                        <constraint firstItem="qWm-2w-ehc" firstAttribute="top" secondItem="inJ-Dj-q0V" secondAttribute="top" constant="12" id="XYJ-Wz-XXR"/>
+                                                        <constraint firstItem="qWm-2w-ehc" firstAttribute="leading" secondItem="inJ-Dj-q0V" secondAttribute="leading" constant="8" id="cY3-tM-fAD"/>
+                                                        <constraint firstAttribute="height" constant="40" id="l3J-1Y-IPY"/>
+                                                        <constraint firstItem="EKo-64-ZoY" firstAttribute="leading" secondItem="qWm-2w-ehc" secondAttribute="trailing" constant="8.5" id="yv2-sP-Ohb"/>
+                                                    </constraints>
                                                 </view>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSg-kj-vMs">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSg-kj-vMs">
                                                     <rect key="frame" x="12" y="42" width="351" height="69"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -431,6 +468,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
+                                            <outlet property="fileImagePT" destination="qWm-2w-ehc" id="GFc-3i-XDc"/>
+                                            <outlet property="fileNamePT" destination="EKo-64-ZoY" id="Xf7-aD-bBM"/>
                                             <outlet property="textPT" destination="sSg-kj-vMs" id="GUk-vL-Nzr"/>
                                         </connections>
                                     </tableViewCell>
@@ -480,5 +519,6 @@
     </scenes>
     <resources>
         <image name="DefaultUser" width="412" height="412"/>
+        <image name="FileIcon" width="72" height="78"/>
     </resources>
 </document>
