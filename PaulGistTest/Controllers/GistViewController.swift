@@ -38,6 +38,8 @@ class GistViewController: UIViewController, UITextViewDelegate {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
         
+        let sv = UIViewController.displaySpinner(onView: self.view)
+        
         DispatchQueue.main.async {
             GistManager.sharedInstance.getGist(id: GistManager.sharedInstance.getSelectedGistId()) {
                 [weak self] (result: Bool) in
@@ -52,6 +54,7 @@ class GistViewController: UIViewController, UITextViewDelegate {
                     
                     self?.navigationController?.popViewController(animated: true)
                 }
+                UIViewController.removeSpinner(spinner: sv)
             }
         }
     }
