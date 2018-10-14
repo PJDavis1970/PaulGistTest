@@ -11,11 +11,15 @@
 		FD3239862170F39F001E9E5F /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3239852170F39F001E9E5F /* Kingfisher.framework */; };
 		FD32398821721624001E9E5F /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD32398721721624001E9E5F /* Auth0.plist */; };
 		FD32398A21722CD0001E9E5F /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD32398921722CD0001E9E5F /* AppData.swift */; };
+		FD32398D21736EA7001E9E5F /* Auth0Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD32398C21736EA7001E9E5F /* Auth0Helper.swift */; };
+		FD32399021737663001E9E5F /* UITextView+newHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD32398F21737663001E9E5F /* UITextView+newHeight.swift */; };
+		FD323992217376A9001E9E5F /* String + htmlToAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD323991217376A9001E9E5F /* String + htmlToAttributedString.swift */; };
+		FD323994217376D5001E9E5F /* NSMutableAttributedString+bold.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD323993217376D5001E9E5F /* NSMutableAttributedString+bold.swift */; };
+		FD323996217376F1001E9E5F /* UIViewController+displaySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD323995217376F1001E9E5F /* UIViewController+displaySpinner.swift */; };
 		FD33079E216CB3E7009AF6C0 /* HIstoryListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD33079D216CB3E7009AF6C0 /* HIstoryListViewCell.swift */; };
 		FD3307A3216CF1D2009AF6C0 /* GistHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3307A2216CF1D2009AF6C0 /* GistHeaderViewCell.swift */; };
 		FD3307A5216CF238009AF6C0 /* GistFileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3307A4216CF238009AF6C0 /* GistFileViewCell.swift */; };
 		FD3307A7216CF252009AF6C0 /* GistCommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3307A6216CF252009AF6C0 /* GistCommentViewCell.swift */; };
-		FD330808216EBAB4009AF6C0 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD330807216EBAB4009AF6C0 /* extensions.swift */; };
 		FD8FA2F5216B741E002325A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8FA2F4216B741E002325A5 /* AppDelegate.swift */; };
 		FD8FA2F7216B741E002325A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8FA2F6216B741E002325A5 /* ViewController.swift */; };
 		FD8FA2FA216B741E002325A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8FA2F8216B741E002325A5 /* Main.storyboard */; };
@@ -49,11 +53,15 @@
 		FD3239852170F39F001E9E5F /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD32398721721624001E9E5F /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		FD32398921722CD0001E9E5F /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		FD32398C21736EA7001E9E5F /* Auth0Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth0Helper.swift; sourceTree = "<group>"; };
+		FD32398F21737663001E9E5F /* UITextView+newHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+newHeight.swift"; sourceTree = "<group>"; };
+		FD323991217376A9001E9E5F /* String + htmlToAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + htmlToAttributedString.swift"; sourceTree = "<group>"; };
+		FD323993217376D5001E9E5F /* NSMutableAttributedString+bold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+bold.swift"; sourceTree = "<group>"; };
+		FD323995217376F1001E9E5F /* UIViewController+displaySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+displaySpinner.swift"; sourceTree = "<group>"; };
 		FD33079D216CB3E7009AF6C0 /* HIstoryListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIstoryListViewCell.swift; sourceTree = "<group>"; };
 		FD3307A2216CF1D2009AF6C0 /* GistHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistHeaderViewCell.swift; sourceTree = "<group>"; };
 		FD3307A4216CF238009AF6C0 /* GistFileViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistFileViewCell.swift; sourceTree = "<group>"; };
 		FD3307A6216CF252009AF6C0 /* GistCommentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistCommentViewCell.swift; sourceTree = "<group>"; };
-		FD330807216EBAB4009AF6C0 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		FD8FA2F1216B741E002325A5 /* PaulGistTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaulGistTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8FA2F4216B741E002325A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD8FA2F6216B741E002325A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +108,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FD32398B21736E58001E9E5F /* Auth0 */ = {
+			isa = PBXGroup;
+			children = (
+				FD32398C21736EA7001E9E5F /* Auth0Helper.swift */,
+			);
+			path = Auth0;
+			sourceTree = "<group>";
+		};
+		FD32398E21737646001E9E5F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FD32398F21737663001E9E5F /* UITextView+newHeight.swift */,
+				FD323991217376A9001E9E5F /* String + htmlToAttributedString.swift */,
+				FD323993217376D5001E9E5F /* NSMutableAttributedString+bold.swift */,
+				FD323995217376F1001E9E5F /* UIViewController+displaySpinner.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		FD33079C216CB3AE009AF6C0 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +141,8 @@
 		FD33079F216CD2C9009AF6C0 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
-				FD330807216EBAB4009AF6C0 /* extensions.swift */,
+				FD32398E21737646001E9E5F /* Extensions */,
+				FD32398B21736E58001E9E5F /* Auth0 */,
 			);
 			path = Libs;
 			sourceTree = "<group>";
@@ -311,18 +339,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD33079E216CB3E7009AF6C0 /* HIstoryListViewCell.swift in Sources */,
+				FD32399021737663001E9E5F /* UITextView+newHeight.swift in Sources */,
 				FD9B4ECB216C0DAA00CC43F0 /* GistViewController.swift in Sources */,
 				FD9B4ECD216C299C00CC43F0 /* GistApi.swift in Sources */,
 				FD3307A5216CF238009AF6C0 /* GistFileViewCell.swift in Sources */,
+				FD323994217376D5001E9E5F /* NSMutableAttributedString+bold.swift in Sources */,
 				FD9B4EC9216C01A200CC43F0 /* GistModel.swift in Sources */,
 				FD9B4EC7216C017E00CC43F0 /* GistManager.swift in Sources */,
 				FD9B4EC1216BF71100CC43F0 /* QRScannerViewController.swift in Sources */,
-				FD330808216EBAB4009AF6C0 /* extensions.swift in Sources */,
+				FD323992217376A9001E9E5F /* String + htmlToAttributedString.swift in Sources */,
 				FD8FA2F7216B741E002325A5 /* ViewController.swift in Sources */,
+				FD323996217376F1001E9E5F /* UIViewController+displaySpinner.swift in Sources */,
 				FD8FA2FD216B741E002325A5 /* PaulGistTest.xcdatamodeld in Sources */,
 				FD3307A3216CF1D2009AF6C0 /* GistHeaderViewCell.swift in Sources */,
 				FD3307A7216CF252009AF6C0 /* GistCommentViewCell.swift in Sources */,
 				FD8FA2F5216B741E002325A5 /* AppDelegate.swift in Sources */,
+				FD32398D21736EA7001E9E5F /* Auth0Helper.swift in Sources */,
 				FD32398A21722CD0001E9E5F /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

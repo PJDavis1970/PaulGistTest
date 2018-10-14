@@ -80,38 +80,31 @@ class GistViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func commentButtonPressed(_ sender: Any) {
         
-        // TODO remove this and place in own class
-        let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
-        
         if AppData.sharedInstance.isLoggedIn() {
             
             GistManager.sharedInstance.postComment(comment: textView.text) {
-                [weak self] (result: Bool) in
+                (result: Bool) in
                 
                 if result == true {
                 } else {
                 }
             }
         } else {
-            Auth0
-                .webAuth()
-                .scope("openid gist")
-                .audience("https://pjdavis1970.eu.auth0.com/userinfo")
-                .start {
-                    switch $0 {
-                    case .failure(let error):
-                        // Handle the error
-                        print("Error: \(error)")
-                    case .success(let credentials):
-                        // Do something with credentials e.g.: save them.
-                        // Auth0 will automatically dismiss the login page
-                        credentialsManager.store(credentials: credentials)
-                        DispatchQueue.main.async {
-                            
-                            AppData.sharedInstance.setLoggedIn(loggedIn: true)
-                            self.setButtonStatus()
-                        }
+            
+            Auth0Helper.login() { [weak self] (result) in
+                switch result {
+                case .success():
+                    
+                    DispatchQueue.main.async {
+                        
+                        AppData.sharedInstance.setLoggedIn(loggedIn: true)
+                        self?.setButtonStatus()
                     }
+                    break
+                    
+                case .failure( _):
+                    break
+                }
             }
         }
     }

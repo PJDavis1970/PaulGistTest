@@ -71,32 +71,25 @@ class ViewController: UIViewController {
     
     @IBAction func LoginPressed(_ sender: Any) {
 
-        // TODO remove this and place in own class
-        let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
-        
         if AppData.sharedInstance.isLoggedIn() {
         
-            credentialsManager.clear()
+            Auth0Helper.logout()
             self.setButtonStatus(status: false)
         } else {
-            Auth0
-                .webAuth()
-                .scope("gist")
-                .audience("https://pjdavis1970.eu.auth0.com/userinfo")
-                .start {
-                    switch $0 {
-                    case .failure(let error):
-                        // Handle the error
-                        print("Error: \(error)")
-                    case .success(let credentials):
-                        // Do something with credentials e.g.: save them.
-                        // Auth0 will automatically dismiss the login page
-                        credentialsManager.store(credentials: credentials)
-                        DispatchQueue.main.async {
-                            
-                            self.setButtonStatus(status: true)
-                        }
+            
+            Auth0Helper.login() { [weak self] (result) in
+                switch result {
+                case .success():
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.setButtonStatus(status: true)
                     }
+                    break
+                    
+                case .failure( _):
+                    break
+                }
             }
         }
     }

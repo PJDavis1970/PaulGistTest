@@ -133,9 +133,9 @@ final class GistManager {
             return
         }
         
-        GistApi.sharedInstance.postComment(comment: comment, endpoint: gist.comments_url) { [weak self] (result) in
+        GistApi.sharedInstance.postComment(comment: comment, endpoint: gist.comments_url) { (result) in
             switch result {
-            case .success(let data):
+            case .success( _):
 
                 completion(true)
                 break

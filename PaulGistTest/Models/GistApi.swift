@@ -129,17 +129,19 @@ class GistApi {
         } catch {
             
             completion(.failure())
+            return
         }
-        urlRequest.httpMethod = "POST"        
+        
+        urlRequest.httpMethod = "POST"
+        
         let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
-        credentialsManager.credentials { [weak self] error, credentials in
-            guard error == nil, let credentials = credentials, let token = credentials.accessToken else {
+        credentialsManager.credentials { error, credentials in
+            guard error == nil, let credentials = credentials, let token = credentials.idToken else {
                 
+                completion(.failure())
                 return
             }
-            let scope = credentials.scope
-            print(scope)
-            urlRequest.addValue(token, forHTTPHeaderField: "authorization")
+            urlRequest.addValue(token, forHTTPHeaderField: "Authorization")
         }
         
         urlRequest.setValue("application/vnd.github.v3.text+json", forHTTPHeaderField: "Content-Type")
@@ -152,10 +154,12 @@ class GistApi {
             (data, response, error) in
             
             guard let responseData = data else {
+                
                 completion(.failure())
                 return
             }
             guard error == nil else {
+                
                 completion(.failure())
                 return
             }
@@ -167,7 +171,7 @@ class GistApi {
                 completion(.success(gistComment))
 
             } catch {
-                print("error trying to convert data to JSON")
+                
                 print(error)
                 completion(.failure())
             }
