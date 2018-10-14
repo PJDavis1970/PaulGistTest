@@ -6,11 +6,9 @@ Installation :
 
 - Download project
 
-- Install Kingfisher
-
 from project root directory run
 ```
-$ git submodule add https://github.com/onevcat/Kingfisher.git
+$ pod install
 ```
 
 Some Gist QR Codes for testing
