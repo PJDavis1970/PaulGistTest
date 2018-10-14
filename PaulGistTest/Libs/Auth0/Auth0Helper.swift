@@ -24,7 +24,7 @@ class Auth0Helper {
         Auth0
             .webAuth()
             .connection("github")
-            //.scope("gist")
+            .scope("gist")
             .audience("https://pjdavis1970.eu.auth0.com/userinfo")
             .start {
                 

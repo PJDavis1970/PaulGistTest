@@ -18,6 +18,7 @@ class GistViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var commentButton: UIButton!
     
     var gistDisplayData: [GistDisplayEntry]?
+    var spinner: UIView? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,32 +33,40 @@ class GistViewController: UIViewController, UITextViewDelegate {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
         
-        let sv = UIViewController.displaySpinner(onView: self.view)
+        spinner = UIViewController.displaySpinner(onView: self.view)
         
-        DispatchQueue.main.async {
-            GistManager.sharedInstance.getGist(id: GistManager.sharedInstance.getSelectedGistId()) {
-                [weak self] (result: Bool) in
-            
-                if result == true {
-
-                    self?.gistDisplayData = GistManager.sharedInstance.getCurrentGistDisplay()
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadData()
-                    }
-                } else {
-                    
-                    self?.navigationController?.popViewController(animated: true)
-                }
-                UIViewController.removeSpinner(spinner: sv)
-            }
-        }
-        
+        self.getGist()
         self.setButtonStatus()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getGist() {
+        
+        DispatchQueue.main.async {
+            GistManager.sharedInstance.getGist(id: GistManager.sharedInstance.getSelectedGistId()) {
+                [weak self] (result: Bool) in
+                
+                if result == true {
+                    
+                    self?.gistDisplayData = GistManager.sharedInstance.getCurrentGistDisplay()
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                    }
+                } else {
+            
+                    self?.navigationController?.popViewController(animated: true)
+                }
+                
+                if let spin = self?.spinner {
+                
+                    UIViewController.removeSpinner(spinner: spin)
+                }
+            }
+        }
     }
     
     // hides keyboard when touch happens outside textview
@@ -83,9 +92,13 @@ class GistViewController: UIViewController, UITextViewDelegate {
         if AppData.sharedInstance.isLoggedIn() {
             
             GistManager.sharedInstance.postComment(comment: textView.text) {
-                (result: Bool) in
+                [weak self] (result: Bool) in
                 
                 if result == true {
+                    
+                    self?.textView.text = ""
+                    self?.getGist()
+                    
                 } else {
                 }
             }
