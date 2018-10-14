@@ -33,6 +33,9 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="LoginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="n9i-Eq-CfZ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPL-3b-He9">
                                 <rect key="frame" x="16" y="488" width="343" height="64"/>
@@ -161,6 +164,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="loginButton" destination="Kbs-eZ-l2T" id="Qo0-6c-oiF"/>
                         <outlet property="tableView" destination="BY0-Ac-uWd" id="2Xp-Gq-4Ud"/>
                     </connections>
                 </viewController>
@@ -311,6 +315,9 @@
                                         <state key="normal" title="Comment">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="commentButtonPressed:" destination="mqk-1F-fcM" eventType="touchUpInside" id="v0d-PY-rqX"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
@@ -581,6 +588,7 @@
                         <viewLayoutGuide key="safeArea" id="zg9-Vm-0DI"/>
                     </view>
                     <connections>
+                        <outlet property="commentButton" destination="eah-wz-33Q" id="5GI-6S-WFK"/>
                         <outlet property="commentView" destination="ufc-d3-Ngn" id="1ee-yy-3gS"/>
                         <outlet property="tableView" destination="eUG-lV-Uhu" id="Gxs-9G-nMU"/>
                         <outlet property="textView" destination="zu7-KW-Wsh" id="4gI-EJ-7b8"/>

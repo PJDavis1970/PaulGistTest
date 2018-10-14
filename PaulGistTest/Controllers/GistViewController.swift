@@ -8,20 +8,14 @@
 
 import UIKit
 import AVFoundation
+import Auth0
 
-/*
-protocol GistCellViewDelegate {
-    
-    func updated(height: CGFloat, viewId: Int)
-}
-*/
 class GistViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var commentView: UIView!
-    
-//    var expandingCellHeight: CGFloat = 64
+    @IBOutlet weak var commentButton: UIButton!
     
     var gistDisplayData: [GistDisplayEntry]?
     
@@ -57,6 +51,8 @@ class GistViewController: UIViewController, UITextViewDelegate {
                 UIViewController.removeSpinner(spinner: sv)
             }
         }
+        
+        self.setButtonStatus()
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,9 +66,56 @@ class GistViewController: UIViewController, UITextViewDelegate {
         textView.resignFirstResponder()
     }
     
+    func setButtonStatus() {
+    
+        if AppData.sharedInstance.isLoggedIn() {
+            
+            self.commentButton.setTitle("Comment", for: .normal)
+        } else {
+            
+            self.commentButton.setTitle("Log In", for: .normal)
+        }
+        
+    }
+    
+    @IBAction func commentButtonPressed(_ sender: Any) {
+        
+        // TODO remove this and place in own class
+        let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
+        
+        if AppData.sharedInstance.isLoggedIn() {
+            
+            GistManager.sharedInstance.postComment(comment: textView.text) {
+                [weak self] (result: Bool) in
+                
+                if result == true {
+                } else {
+                }
+            }
+        } else {
+            Auth0
+                .webAuth()
+                .scope("openid profile")
+                .audience("https://pjdavis1970.eu.auth0.com/userinfo")
+                .start {
+                    switch $0 {
+                    case .failure(let error):
+                        // Handle the error
+                        print("Error: \(error)")
+                    case .success(let credentials):
+                        // Do something with credentials e.g.: save them.
+                        // Auth0 will automatically dismiss the login page
+                        credentialsManager.store(credentials: credentials)
+                        DispatchQueue.main.async {
+                            
+                            AppData.sharedInstance.setLoggedIn(loggedIn: true)
+                            self.setButtonStatus()
+                        }
+                    }
+            }
+        }
+    }
 }
-
-
 
 // MARK: - Table view data source
 
@@ -107,7 +150,6 @@ extension GistViewController: UITableViewDataSource {
                     
                 let cell = tableView.dequeueReusableCell( withIdentifier: "GistFileViewCellReuse",
                                                             for: indexPath) as! GistFileViewCell
-//                cell.delegate = self
                 cell.setupWith(data: entry.data as! GistFile, viewId: indexPath.row)
                 return cell
                 
@@ -115,7 +157,6 @@ extension GistViewController: UITableViewDataSource {
                 
                 let cell = tableView.dequeueReusableCell( withIdentifier: "GistCommentViewCellReuse",
                                                           for: indexPath) as! GistCommentViewCell
-//                cell.delegate = self
                 cell.setupWith(data: entry.data as! GistComment, viewId: indexPath.row)
                 return cell
             }
@@ -140,42 +181,3 @@ extension GistViewController: UITableViewDelegate {
         return UITableViewAutomaticDimension
     }
 }
-/*
-extension GistViewController: GistCellViewDelegate {
-    
-    func updated(height: CGFloat, viewId: Int) {
-        
-        expandingCellHeight = height
-        
-        // Disabling animations gives us our desired behaviour
-        UIView.setAnimationsEnabled(false)
-        /* These will causes table cell heights to be recaluclated,
-         without reloading the entire cell */
-        tableView.beginUpdates()
-        tableView.endUpdates()
-        // Re-enable animations
-        UIView.setAnimationsEnabled(true)
-    }
-}
-
-fileprivate extension GistViewController {
-    
-    fileprivate func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillChangeFrame, object: nil)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        
-        guard let userInfo = notification.userInfo,
-            let keyBoardValueBegin = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue,
-            let keyBoardValueEnd = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue, keyBoardValueBegin != keyBoardValueEnd else {
-                return
-        }
-        
-        let keyboardHeight = keyBoardValueEnd.height
-        
-        tableView.contentInset.bottom = keyboardHeight
-    }
-}
-*/

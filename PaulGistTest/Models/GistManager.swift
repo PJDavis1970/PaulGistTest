@@ -126,6 +126,25 @@ final class GistManager {
         return list
     }
     
+    func postComment(comment: String , completion: @escaping (_ result: Bool) -> Void) {
+        
+        guard let gist = currentGist else {
+            completion(false)
+            return
+        }
+        
+        GistApi.sharedInstance.postComment(comment: comment, endpoint: gist.comments_url) { [weak self] (result) in
+            switch result {
+            case .success(let data):
 
+                completion(true)
+                break
+                
+            case .failure():
+                completion(false)
+                break
+            }
+        }
+    }
 
 }

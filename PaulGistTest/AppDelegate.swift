@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Auth0
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -89,5 +90,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        
+        return Auth0.resumeAuth(url, options: options)
+    }
 }
 

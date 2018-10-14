@@ -14,8 +14,6 @@ class GistFileViewCell: UITableViewCell {
     @IBOutlet weak var fileNamePT: UILabel!
     @IBOutlet weak var textPT: UITextView!
     
-//    var delegate: GistCellViewDelegate?
-    
     // we will use a viewId which specifies which cell in teh tableview we are.
     // This is used for the update height of the view.
     var viewId: Int = 0
@@ -23,7 +21,6 @@ class GistFileViewCell: UITableViewCell {
         
         super.awakeFromNib()
         
-//        textPT.delegate = self
     }
     
     func setupWith(data: GistFile, viewId: Int) {
@@ -38,13 +35,4 @@ class GistFileViewCell: UITableViewCell {
         textPT.replace(textRange!, withText: data.content)
     }
 }
-/*
-extension GistFileViewCell: UITextViewDelegate {
-    
-    func textViewDidChange(_ textView: UITextView) {
-        
-//        let height = textPT.newHeight(withBaseHeight: 104)
-//        delegate?.updated(height: height, viewId: viewId)
-    }
-}
-*/
+

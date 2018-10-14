@@ -14,8 +14,6 @@ class GistCommentViewCell: UITableViewCell {
     @IBOutlet weak var namePT: UILabel!
     @IBOutlet weak var textPT: UITextView!
     
- //   var delegate: GistCellViewDelegate?
-    
     // we will use a viewId which specifies which cell in teh tableview we are.
     
     var viewId: Int = 0
@@ -53,13 +51,4 @@ class GistCommentViewCell: UITableViewCell {
         textPT.replace(textRange!, withText: data.body)
     }
 }
-/*
-extension GistCommentViewCell: UITextViewDelegate {
-    
-    func textViewDidChange(_ textView: UITextView) {
-        
-//        let height = textPT.newHeight(withBaseHeight: 104)
-//        delegate?.updated(height: height, viewId: viewId)
-    }
-}
-*/
+
