@@ -1,0 +1,24 @@
+PODS:
+  - Auth0 (1.13.0):
+    - SimpleKeychain
+  - Kingfisher (4.10.0)
+  - SimpleKeychain (0.8.1)
+
+DEPENDENCIES:
+  - Auth0 (~> 1.13)
+  - Kingfisher (~> 4.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Auth0
+    - Kingfisher
+    - SimpleKeychain
+
+SPEC CHECKSUMS:
+  Auth0: 7e99e1ca69543bc243d9687fd612057072f3eaaf
+  Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
+  SimpleKeychain: e2485c28d82fcece35e9e41faeac42ebfe614815
+
+PODFILE CHECKSUM: f9f57b2dfa5e51c68490ae8b089f5ec829e7cf54
+
+COCOAPODS: 1.5.3
