@@ -130,14 +130,10 @@ class GistApi {
             
             completion(.failure())
         }
-        urlRequest.httpMethod = "POST"
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.addValue("gist", forHTTPHeaderField: "scope")
-        
+        urlRequest.httpMethod = "POST"        
         let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
         credentialsManager.credentials { [weak self] error, credentials in
-            guard error == nil, let credentials = credentials, let token = credentials.idToken else {
+            guard error == nil, let credentials = credentials, let token = credentials.accessToken else {
                 
                 return
             }

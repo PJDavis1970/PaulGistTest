@@ -81,7 +81,7 @@ class ViewController: UIViewController {
         } else {
             Auth0
                 .webAuth()
-                .scope("openid profile")
+                .scope("gist")
                 .audience("https://pjdavis1970.eu.auth0.com/userinfo")
                 .start {
                     switch $0 {
