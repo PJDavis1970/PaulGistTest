@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         
         let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
         credentialsManager.credentials { [weak self] error, credentials in
-            guard error == nil, let credentials = credentials else {
+            guard error == nil, let _ = credentials else {
                 
                 DispatchQueue.main.async {
                     
